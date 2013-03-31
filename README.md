@@ -68,5 +68,3 @@ void loop()
   lastDist = currentDist;
 }
 
-
-This is a test to delete later from Kristie
