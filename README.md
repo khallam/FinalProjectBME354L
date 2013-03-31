@@ -67,5 +67,3 @@ void loop()
   }
   lastDist = currentDist;
 }
-
-Hey y'all its jessica.
