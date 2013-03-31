@@ -1,1 +1,19 @@
-// Tutorial 4
+/*
+Tutorial 4, Arduino Group 01
+LED exercise
+*/
+
+int ledPin = 13;
+
+void setup ()
+{
+  //nitialize pins as outputs
+  pinMode(ledPin, OUTPUT);
+}
+void loop()
+{
+  digitalWrite(ledPin, HIGH);
+  delay(1000);
+  digitalWrite(ledPin, LOW);
+  delay(1000);
+}
