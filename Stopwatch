@@ -31,8 +31,6 @@ int var2=0;
 int var3=0;
 int var4=0;
 int var5=0;
-int tick=0;
-int previousMillis=0;
 int timeEl = 0;
 int timeLeft = 0;
 int zerot = 0;
@@ -271,26 +269,14 @@ void loop()
   }
   timeEl=millis()/1000;
   lcd.setCursor(14,1);
-  lcd.print(timeEl);
+  lcd.print(timeEl); // this will print the time elpased to the LCD screen while the rest of the program runs
 
-  if (moveon == 5){
-    //while(millis()/1000 < var5){
-     timeLeft = var5-millis()/1000; 
-     lcd.setCursor(4,0);
-     lcd.print(timeLeft);
-    //}
-    
-    //lcd.clear();
-    //zerot=timeEl;
-    //timeLeft=timeLeft+timeEl-zerot;
-   
-    
-    //  if (zerot<var5){
-    //   timeLeft = var5-zerot;
-    //lcd.setCursor(4,0);
-    //lcd.print(timeEl,DEC);
+  if (moveon == 5){     // this is where we tried to get the countdown functionality of the stopwatch to start
+     
+    timeLeft = var5-millis()/1000; //attempting to get the seconds portion to countdown
+    lcd.setCursor(4,0);
+    lcd.print(timeLeft);
   }
-
 }
 
 
@@ -331,83 +317,12 @@ void loop()
  lcd.print(var5,DEC);
  */
 
-
-
-
-/*
-
- 
- 
- 
- 
-/*
- switch (lcd_key) // depending on which button was pushed, we perform an action
- {
- case btnRIGHT:
- {
- lcd.setCursor(0,0);
- lcd.print("Right");
- lcd.setCursor(1,1);
- lcd.print(adc_key_in);
- 
- break;
- }
- case btnLEFT:
- {
- lcd.setCursor(0,0);
- lcd.print("Left");
- lcd.setCursor(1,1);
- lcd.print(adc_key_in);
- break;
- }
- case btnUP:
- {
- lcd.setCursor(0,0);
- lcd.print("Up");
- lcd.setCursor(1,1);
- lcd.print(adc_key_in);
- break;
- }
- case btnDOWN:
- {
- lcd.setCursor(0,0);
- lcd.print("Down");
- lcd.setCursor(1,1);
- lcd.print(adc_key_in);
- break;
- }
- case btnSELECT:
- {
- lcd.setCursor(0,0);
- lcd.print("Select");
- lcd.setCursor(1,1);
- lcd.print(adc_key_in);
- break;
- }
- case btnNONE:
- {
- lcd.setCursor(0,0);
- lcd.print("None");
- lcd.setCursor(1,1);
- lcd.print(adc_key_in);
- break;
- }
- }
- delay(500);
- }
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//lcd.clear();
+//zerot=timeEl;
+//timeLeft=timeLeft+timeEl-zerot;
+   
+    
+//  if (zerot<var5){
+//   timeLeft = var5-zerot;
+//lcd.setCursor(4,0);
+//lcd.print(timeEl,DEC);
