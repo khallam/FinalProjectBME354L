@@ -33,7 +33,6 @@ int var4=0;
 int var5=0;
 int timeEl = 0;
 int timeLeft = 0;
-int zerot = 0;
 
 // read the buttons
 int read_LCD_buttons()
@@ -61,13 +60,13 @@ void loop()
 
     switch(lcd_key)
   {
-  case btnSELECT:
+  case btnSELECT: //Select changes variable to set stages of input/counting
     {
       moveon=moveon+1;
     }
   }
 
-  if(moveon ==1 )
+  if(moveon ==1 ) //First Stage: Set first digit of minutes
   {
     lcd.setCursor(0,0);
     lcd.print("Enter minutes:");
@@ -103,14 +102,10 @@ void loop()
         var1 = start;
         break;
       }
-      /*case btnSELECT:
-       moveon = moveon + 1;
-       var1 = start;
-       */
     }
   }
 
-  if(moveon ==2 )
+  if(moveon ==2 ) //Second Stage: Set 2nd digit of minutes
   {
     lcd.setCursor(1,1);
     lcd.print(var1,DEC);
@@ -150,14 +145,10 @@ void loop()
         var2 = start2;
         break;
       }
-      /*case btnSELECT:
-       moveon = moveon + 1;
-       var1 = start;
-       */
     }
   }
 
-  if(moveon ==3 )
+  if(moveon ==3 ) //Third Stage: Set first digit of Seconds
   {
     lcd.clear();
     lcd.setCursor(0,0);
@@ -210,7 +201,8 @@ void loop()
       }
     }
   }
-  if(moveon == 4 )
+
+  if(moveon == 4 ) //Fourth Stage: Set 2nd digit of Seconds
   {
     lcd.setCursor(1,1);
     lcd.print(var1,DEC);
@@ -266,63 +258,18 @@ void loop()
         break;
       }
     }
+       timeEl=0; //Trying to rese millis aftet the fourth stage
   }
-  timeEl=millis()/1000;
+
+  timeEl=millis()/1000; //Count time elapsed
+
   lcd.setCursor(14,1);
   lcd.print(timeEl); // this will print the time elpased to the LCD screen while the rest of the program runs
 
-  if (moveon == 5){     // this is where we tried to get the countdown functionality of the stopwatch to start
+  if (moveon == 5){     // Fifth Stage: start countdown (only seconds)
      
-    timeLeft = var5-millis()/1000; //attempting to get the seconds portion to countdown
+    timeLeft = var5-timeEl; //attempting to get the seconds portion to countdown
     lcd.setCursor(4,0);
     lcd.print(timeLeft);
   }
 }
-
-
-
-
-//  if (moveon ==5)
-//  {
-//    int timeElapsed = 0;
-//    var5 = var3*10+var4;
-//    while(var5>0){
-//      timeElapsed = millis()/1000;
-//      var5 = var5-timeElapsed;
-//      lcd.clear();
-//      lcd.setCursor(4,1);
-//      lcd.print(var5,DEC);
-//    }
-//  }
-/*  {
- lcd.clear();
- var5 = var3*10+var4;
- unsigned long currentMillis = millis();
- if (currentMillis-previousMillis >1000)
- {
- previousMillis = currentMillis;
- var5 = var5-1;
- lcd.print(var5,DEC);
- }
-/*var5 = var3*10 + var4;
- if (var5>0)
- {
- if ()s
- {
- var5 = var5-milli;
- tick = tick + 1000;
- }
- }
- lcd.setCursor(1,4);
- lcd.print(var5,DEC);
- */
-
-//lcd.clear();
-//zerot=timeEl;
-//timeLeft=timeLeft+timeEl-zerot;
-   
-    
-//  if (zerot<var5){
-//   timeLeft = var5-zerot;
-//lcd.setCursor(4,0);
-//lcd.print(timeEl,DEC);
