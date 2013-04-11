@@ -1,0 +1,46 @@
+//Create a dancing man on the LCD screen
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(8,9,4,5,6,7);
+
+byte h1[8] = {
+  B00000,
+  B00100,
+  B11111,
+  B00100,
+  B01010,
+  B10001,
+  B00000,
+};
+
+byte h2[8] = {
+  B00000,
+  B00101,
+  B01110,
+  B10100,
+  B01010,
+  B10001,
+  B00000,
+};
+
+void setup(){
+  lcd.begin(16,2);
+  lcd.createChar(0,h1);
+ // lcd.setCursor(8,0);
+ // lcd.write(byte(0));
+  
+  lcd.createChar(1,h2);
+ // lcd.setCursor(8,0);
+ // lcd.write(byte(1));
+}
+
+void loop(){
+  //lcd.createChar(0,h1);
+  lcd.setCursor(8,0);
+  lcd.write(byte(0));
+  
+ // lcd.createChar(1,h2);
+  lcd.setCursor(8,0);
+  lcd.write(byte(1));
+  
+}
