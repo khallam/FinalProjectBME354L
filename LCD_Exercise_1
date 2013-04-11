@@ -26,23 +26,23 @@ void setup(){
    lcd.begin(16,2);
    
    lcd.createChar(0,h1);
-   lcd.setCursor(3,0);
+   lcd.setCursor(12,0);
    lcd.write(byte(0));
    
    lcd.createChar(1,h2);
-   lcd.setCursor(4,0);
+   lcd.setCursor(13,0);
    lcd.write(byte(1));
    
-   lcd.setCursor(5,1);
+   lcd.setCursor(14,1);
    lcd.write(byte(0));
-   lcd.setCursor(6,1);
+   lcd.setCursor(15,1);
    lcd.write(byte(1));
    
 }
 void loop() {
   // scroll 13 positions (string length) to the left 
   // to move it offscreen left:
-  for (int positionCounter = 0; positionCounter < 18; positionCounter++){
+  for (int positionCounter = 0; positionCounter < 12; positionCounter++){
     // scroll one position left:
     lcd.scrollDisplayLeft(); 
     // wait a bit:
@@ -51,10 +51,10 @@ void loop() {
 
   // scroll 29 positions (string length + display length) to the right
   // to move it offscreen right:
-  for (int positionCounter = 0; positionCounter < 2; positionCounter++) {
+ // for (int positionCounter = 0; positionCounter < 1; positionCounter++) {
     // scroll one position right:
-    lcd.scrollDisplayRight(); 
+   // lcd.scrollDisplayRight(); 
     // wait a bit:
-    delay(100);
-  }
+    //delay(100);
+ // }
 }
