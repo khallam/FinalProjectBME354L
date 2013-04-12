@@ -1,0 +1,358 @@
+//Sample using LiquidCrystal library
+#include <LiquidCrystal.h>
+/*******************************************************
+ * This program will test the LCD panel and the buttons
+ * Mark Bramwell, July 2010
+ ********************************************************/
+// select the pins used on the LCD panel
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+// define some values used by the panel and buttons
+int lcd_key = 0;
+int adc_key_in = 0;
+#define btnRIGHT 0
+#define btnUP 1
+#define btnDOWN 2
+#define btnLEFT 3
+#define btnSELECT 4
+#define btnNONE 5
+#define V1 80
+#define V2 230
+#define V3 350
+#define V4 500
+#define V5 800
+
+int start=0;
+int start2=0;
+int start3=0;
+int start4=0;
+int moveon=0;
+int var1=0;
+int var2=0;
+int var3=0;
+int var4=0;
+int var5=0;
+int var6=0;
+int timeEl = 0;
+int timeLeft = 0;
+int timePause = 0;
+int timePauseTot = 0;
+boolean previousRB = false;
+boolean currentRB = false;
+
+// read the buttons
+int read_LCD_buttons()
+{
+  adc_key_in = analogRead(A0); // read the value from the sensor
+  // my buttons when read are centered at these valies: 0, 144, 329, 504, 741
+  // we add approx 50 to those values and check to see if we are closeif (adc_key_in >& VNONE) return btnNONE; // We make this the 1st option for speed reasons since it will be the most likely result
+  if (adc_key_in < V1 ) return btnRIGHT;
+  if (adc_key_in < V2 && adc_key_in > V1) return btnUP;
+  if (adc_key_in < V3 && adc_key_in > V2) return btnDOWN;
+  if (adc_key_in < V4 && adc_key_in > V3) return btnLEFT;
+  if (adc_key_in < V5 && adc_key_in > V4) return btnSELECT;
+  if (adc_key_in > V4 ) return btnNONE;
+
+
+  return btnNONE; // when all others fail, return this...
+}
+;
+void setup()
+{
+  lcd.begin(16, 2); // start the library
+
+
+attachInterrupt(btnLEFT, pause, CHANGE);
+}
+void pause()
+{
+  if (btnLEFT==true)
+  timePause = millis();
+}
+void loop()
+{
+  lcd_key = read_LCD_buttons(); // read the buttons
+
+
+
+    switch(lcd_key)
+  {
+  case btnSELECT:
+    {
+      moveon=moveon+1;
+      break;
+    }
+  case btnLEFT:
+    {
+      currentRB = !currentRB;
+      delay(200);
+      break;
+    }
+  }
+ lcd.setCursor(12,1);
+ lcd.print(timeEl);
+  if (currentRB == true){
+
+    timeEl=millis()/1000;   
+  }
+
+  if (currentRB ==false){
+    if(moveon ==1 )
+    {
+      lcd.setCursor(0,0);
+      lcd.print("Enter minutes:");
+
+      lcd.setCursor(1,1);
+      lcd.print(start,DEC);
+      delay(200);
+
+      switch(lcd_key)
+      {
+
+      case btnUP:
+        {
+          start=start+1;
+          if(start>9)
+          {
+            start=0;
+          }
+          lcd.setCursor(1,1);
+          lcd.print(start,DEC);
+          var1 = start;
+          break;
+        }
+      case btnDOWN:
+        {
+          start=start-1;
+          if(start<0)
+          {
+            start=0;
+          }
+          lcd.setCursor(1,1);
+          lcd.print(start,DEC);
+          var1 = start;
+          break;
+        }
+      }
+    }
+
+    if(moveon ==2 )
+    {
+      lcd.setCursor(1,1);
+      lcd.print(var1,DEC);
+      lcd.setCursor(2,1);
+      lcd.print(start2,DEC);
+      var2 = start2;
+      delay(200);
+
+      switch(lcd_key)
+      {
+
+      case btnUP:
+        {
+          start2=start2+1;
+          if(start2>9)
+          {
+            start2=0;
+          }
+          lcd.setCursor(1,1);
+          lcd.print(var1,DEC);
+          lcd.setCursor(2,1);
+          lcd.print(start2,DEC);
+          var2 = start2;
+          break;
+        }
+      case btnDOWN:
+        {
+          start2=start2-1;
+          if(start2<0)
+          {
+            start2=0;
+          }
+          lcd.setCursor(1,1);
+          lcd.print(var1,DEC);
+          lcd.setCursor(2,1);
+          lcd.print(start2,DEC);
+          var2 = start2;
+          break;
+        }
+      }
+    }
+
+    if(moveon ==3 )
+    {
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("Enter seconds:");
+      lcd.setCursor(1,1);
+      lcd.print(var1,DEC);
+      lcd.setCursor(2,1);
+      lcd.print(var2,DEC);
+      lcd.setCursor(3,1);
+      lcd.print(":");
+      lcd.setCursor(4,1);
+      lcd.print(start3,DEC);
+      var3 = start3;
+      delay(200);
+
+      switch(lcd_key)
+      {
+
+      case btnUP:
+        {
+          start3=start3+1;
+          if(start3>6)
+          {
+            start3=0;
+          }
+          lcd.setCursor(1,1);
+          lcd.print(var1,DEC);
+          lcd.setCursor(2,1);
+          lcd.print(var2,DEC);
+          lcd.setCursor(4,1);
+          lcd.print(start3,DEC);
+          var3= start3;
+          break;
+        }
+      case btnDOWN:
+        {
+          start3=start3-1;
+          if(start3<0)
+          {
+            start3=0;
+          }
+          lcd.setCursor(1,1);
+          lcd.print(var1,DEC);
+          lcd.setCursor(2,1);
+          lcd.print(var2,DEC);
+          lcd.setCursor(4,1);
+          lcd.print(start3,DEC);
+          var3=start3;
+          break;
+        }
+      }
+    }
+    if(moveon == 4 )
+    {
+      lcd.setCursor(0,0);
+      lcd.print("Enter seconds:");
+      lcd.setCursor(1,1);
+      lcd.print(var1,DEC);
+      lcd.setCursor(2,1);
+      lcd.print(var2,DEC);
+      lcd.setCursor(3,1);
+      lcd.print(":");
+      lcd.setCursor(4,1);
+      lcd.print(var3,DEC);
+      lcd.setCursor(5,1);
+      lcd.print(start4,DEC);
+      var4 = start4;
+      delay(200);
+
+      switch(lcd_key)
+      {
+
+      case btnUP:
+        {
+          start4=start4+1;
+          if(start4>9)
+          {
+            start4=0;
+          }
+          lcd.setCursor(1,1);
+          lcd.print(var1,DEC);
+          lcd.setCursor(2,1);
+          lcd.print(var2,DEC);
+          lcd.setCursor(4,1);
+          lcd.print(var3,DEC);
+          lcd.setCursor(5,1);
+          lcd.print(start4,DEC);
+          var4= start4;
+          break;
+        }
+      case btnDOWN:
+        {
+          start4=start4-1;
+          if(start4<0)
+          {
+            start4=0;
+          }
+          lcd.setCursor(1,1);
+          lcd.print(var1,DEC);
+          lcd.setCursor(2,1);
+          lcd.print(var2,DEC);
+          lcd.setCursor(4,1);
+          lcd.print(var3,DEC);
+          lcd.setCursor(5,1);
+          lcd.print(start4,DEC);
+          var4=start4;
+          break;
+        }
+      }
+      var5 = var3*10+var4;
+      var6 = var1*10+var2;
+      timeEl = millis()/1000;
+      lcd.clear();
+    }
+
+    if (moveon == 5){
+      lcd.setCursor(0,0);
+      lcd.print("Time Left:");
+      timeLeft = var5-((millis()/1000)-timeEl);
+
+
+      if (var6 >=10){
+        lcd.setCursor(1,1);
+        lcd.print(var6);
+        lcd.setCursor(3,1);
+        lcd.print(":");
+        delay(100);
+        if(timeLeft>=10){
+          lcd.setCursor(4,1);
+          lcd.print(timeLeft);
+          delay(100);
+        }
+        if(timeLeft<10 && timeLeft>=0){
+          lcd.setCursor(4,1);
+          lcd.print(0,DEC);
+          lcd.setCursor(5,1);
+          lcd.print(timeLeft);
+          delay(100);
+        }
+      }
+      if (var6<10 && var6>=0){
+        lcd.setCursor(1,1);
+        lcd.print(0,DEC);
+        lcd.setCursor(2,1);
+        lcd.print(var6);
+        lcd.setCursor(3,1);
+        lcd.print(":");
+        delay(100);
+        if(timeLeft>=10){
+          lcd.setCursor(4,1);
+          lcd.print(timeLeft);
+          delay(100);
+        }
+        if(timeLeft<10 && timeLeft>=0){
+          lcd.setCursor(4,1);
+          lcd.print(0,DEC);
+          lcd.setCursor(5,1);
+          lcd.print(timeLeft);
+          delay(100);
+        }
+      }    
+
+      if (timeLeft < 0){
+        var6 = var6 - 1;
+        var5 = 59;
+        timeEl = millis()/1000 ;
+        delay(100);
+      }
+      if (var6 < 0 && timeLeft <0){
+        lcd.setCursor(1,1);
+        lcd.print("00:00");
+        lcd.blink();
+        delay(200);
+      }
+    }
+  }
+}
