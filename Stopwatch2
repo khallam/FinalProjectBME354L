@@ -1,8 +1,9 @@
-//Sample using LiquidCrystal library
+// Stopwatch with pause function
 #include <LiquidCrystal.h>
 /*******************************************************
- * This program will test the LCD panel and the buttons
- * Mark Bramwell, July 2010
+ * This program will take user input for a stopwatch time,
+ * display it, and count down. A pause function is also 
+ * implemented for the user to pause the timer.
  ********************************************************/
 // select the pins used on the LCD panel
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
@@ -34,23 +35,20 @@ int var5=0;
 int var6=0;
 int timeEl = 0;
 int timeLeft = 0;
-boolean previousRB = false;
 boolean currentRB = false;
 
 // read the buttons
 int read_LCD_buttons()
 {
   adc_key_in = analogRead(A0); // read the value from the sensor
-  // my buttons when read are centered at these valies: 0, 144, 329, 504, 741
-  // we add approx 50 to those values and check to see if we are closeif (adc_key_in >& VNONE) return btnNONE; // We make this the 1st option for speed reasons since it will be the most likely result
+  // my buttons when read are centered around these values: 80, 230, 350, 500, 800
+  // we add approx 50 to those values and check to see if we are close
   if (adc_key_in < V1 ) return btnRIGHT;
   if (adc_key_in < V2 && adc_key_in > V1) return btnUP;
   if (adc_key_in < V3 && adc_key_in > V2) return btnDOWN;
   if (adc_key_in < V4 && adc_key_in > V3) return btnLEFT;
   if (adc_key_in < V5 && adc_key_in > V4) return btnSELECT;
   if (adc_key_in > V4 ) return btnNONE;
-
-
   return btnNONE; // when all others fail, return this...
 }
 ;
@@ -63,29 +61,28 @@ void loop()
   lcd_key = read_LCD_buttons(); // read the buttons
 
 
-
     switch(lcd_key)
   {
   case btnSELECT:
     {
-      moveon=moveon+1;
+      moveon=moveon+1; //counts the number of times the select button has been pressed
       break;
     }
   case btnLEFT:
     {
-      currentRB = !currentRB;
+      currentRB = !currentRB; //indicates when the pause button has been pressed
       delay(200);
       break;
     }
   }
-  if (currentRB == true){
+  if (currentRB == true){ //reassigns variables if pause button has been pressed
 
     timeEl=millis()/1000; 
     var5=timeLeft;
   }
 
-  if (currentRB ==false){
-    if(moveon ==1 )
+  if (currentRB ==false){ //normal operation when pause button has been released
+    if(moveon ==1 )       // select has been pushed once; user selects tens digit of minutes
     {
       lcd.setCursor(0,0);
       lcd.print("Enter minutes:");
@@ -124,7 +121,7 @@ void loop()
       }
     }
 
-    if(moveon ==2 )
+    if(moveon ==2 ) //select button has been pushed twice; user selects ones digit of minutes
     {
       lcd.setCursor(1,1);
       lcd.print(var1,DEC);
@@ -167,7 +164,7 @@ void loop()
       }
     }
 
-    if(moveon ==3 )
+    if(moveon ==3 ) // selct button has been pressed thrice; user selects tens digit of seconds
     {
       lcd.clear();
       lcd.setCursor(0,0);
@@ -220,7 +217,7 @@ void loop()
         }
       }
     }
-    if(moveon == 4 )
+    if(moveon == 4 ) //select button has been pressed frice; user selects ones digit of seconds
     {
       lcd.setCursor(0,0);
       lcd.print("Enter seconds:");
@@ -277,30 +274,29 @@ void loop()
           break;
         }
       }
-      var5 = var3*10+var4;
-      var6 = var1*10+var2;
-      timeEl = millis()/1000;
+      var5 = var3*10+var4;  // turns seconds into one unit
+      var6 = var1*10+var2;  // turns minutes into one unit
+      timeEl = millis()/1000; // freezes on the time elapsed since the start of the program
       lcd.clear();
     }
 
-    if (moveon == 5){
+    if (moveon == 5){  // select button has been pushed quince; countdown begins
       lcd.setCursor(0,0);
       lcd.print("Time Left:");
-      timeLeft = var5-((millis()/1000)-timeEl);
+      timeLeft = var5-((millis()/1000)-timeEl); //counting down seconds
 
-
-      if (var6 >=10){
+      if (var6 >=10){ //case when minutes >10
         lcd.setCursor(1,1);
         lcd.print(var6);
         lcd.setCursor(3,1);
         lcd.print(":");
         delay(100);
-        if(timeLeft>=10){
+        if(timeLeft>=10){ //case when seconds >10; print as normal
           lcd.setCursor(4,1);
           lcd.print(timeLeft);
           delay(100);
         }
-        if(timeLeft<10 && timeLeft>=0){
+        if(timeLeft<10 && timeLeft>=0){ //case when seconds are between 0 and 10; add a 0 in front of ones digit for seconds
           lcd.setCursor(4,1);
           lcd.print(0,DEC);
           lcd.setCursor(5,1);
@@ -308,7 +304,7 @@ void loop()
           delay(100);
         }
       }
-      if (var6<10 && var6>=0){
+      if (var6<10 && var6>=0){ //case when minutes are between 0 and 10; add a 0 in front of ones digit for minutes
         lcd.setCursor(1,1);
         lcd.print(0,DEC);
         lcd.setCursor(2,1);
@@ -316,12 +312,12 @@ void loop()
         lcd.setCursor(3,1);
         lcd.print(":");
         delay(100);
-        if(timeLeft>=10){
+        if(timeLeft>=10){ //case when seconds > 10; print as normal
           lcd.setCursor(4,1);
           lcd.print(timeLeft);
           delay(100);
         }
-        if(timeLeft<10 && timeLeft>=0){
+        if(timeLeft<10 && timeLeft>=0){ //adds 0 in front of ones digit for seconds
           lcd.setCursor(4,1);
           lcd.print(0,DEC);
           lcd.setCursor(5,1);
@@ -330,13 +326,13 @@ void loop()
         }
       }    
 
-      if (timeLeft < 0){
+      if (timeLeft < 0){ //minutes countdown
         var6 = var6 - 1;
         var5 = 59;
         timeEl = millis()/1000 ;
         delay(100);
       }
-      if (var6 < 0 && timeLeft <0){
+      if (var6 < 0 && timeLeft <0){ //special case for timer finished
         lcd.setCursor(1,1);
         lcd.print("00:00");
         lcd.clear();       
