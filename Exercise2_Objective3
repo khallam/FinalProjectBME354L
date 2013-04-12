@@ -1,0 +1,98 @@
+//Objective 3, Exercise 2 
+#include <LiquidCrystal.h>
+/*******************************************************
+ * This program will help determine which values correspond,
+ * to each button press.
+ ********************************************************/
+// select the pins used on the LCD panel
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+// define some values used by the panel and buttons
+int lcd_key = 0;
+int adc_key_in = 0;
+#define btnRIGHT 0
+#define btnUP 1
+#define btnDOWN 2
+#define btnLEFT 3
+#define btnSELECT 4
+#define btnNONE 5
+#define V1 80
+#define V2 230
+#define V3 350
+#define V4 500
+#define V5 800
+
+// read the buttons
+int read_LCD_buttons()
+{
+  adc_key_in = analogRead(A0); // read the value from the sensor
+  // my buttons when read are centered around these values: 80, 230, 350, 500, 800
+  if (adc_key_in < V1 ) return btnRIGHT;
+  if (adc_key_in < V2 && adc_key_in > V1) return btnUP;
+  if (adc_key_in < V3 && adc_key_in > V2) return btnDOWN;
+  if (adc_key_in < V4 && adc_key_in > V3) return btnLEFT;
+  if (adc_key_in < V5 && adc_key_in > V4) return btnSELECT;
+  if (adc_key_in > V5 ) return btnNONE;
+  return btnNONE; // when all others fail, return this...
+}
+
+void setup()
+{
+  lcd.begin(16, 2); // start the library
+}
+void loop()
+{ 
+  lcd.clear();
+  lcd_key = read_LCD_buttons();
+  switch (lcd_key) // depending on which button was pushed, we perform an action
+  {
+  case btnRIGHT: //right button pushed
+    {
+      lcd.setCursor(0,0);
+      lcd.print("Right");
+      lcd.setCursor(1,1);
+      lcd.print(adc_key_in);
+      break;
+    }
+  case btnLEFT:  //left button pushed
+    {
+      lcd.setCursor(0,0);
+      lcd.print("Left");
+      lcd.setCursor(1,1);
+      lcd.print(adc_key_in);
+      break;
+    }
+  case btnUP: //up button pushed
+    {
+      lcd.setCursor(0,0);
+      lcd.print("Up");
+      lcd.setCursor(1,1);
+      lcd.print(adc_key_in);
+      break;
+    }
+  case btnDOWN: //down button pushed
+    {
+      lcd.setCursor(0,0);
+      lcd.print("Down");
+      lcd.setCursor(1,1);
+      lcd.print(adc_key_in);
+      break;
+    }
+  case btnSELECT: //select button pushed
+    {
+      lcd.setCursor(0,0);
+      lcd.print("Select");
+      lcd.setCursor(1,1);
+      lcd.print(adc_key_in);
+      break;
+    }
+  case btnNONE: //no button is pushed
+    {
+      lcd.setCursor(0,0);
+      lcd.print("None");
+      lcd.setCursor(1,1);
+      lcd.print(adc_key_in);
+      break;
+    }
+  }
+  delay(500);
+}
