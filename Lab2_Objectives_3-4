@@ -108,7 +108,7 @@ int Enter_Temp()
 int CurrentTemp()
 {
   lcd.clear();
-  cTemp = analogRead(A1);
+  cTemp = analogRead(A1)/0.005;
   lcd.setCursor(0,0);
   lcd.print("Current Temp:");
   lcd.setCursor(1,1);
