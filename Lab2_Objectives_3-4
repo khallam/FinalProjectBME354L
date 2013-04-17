@@ -110,10 +110,14 @@ int CurrentTemp()
   lcd.clear();
   cTemp = analogRead(A1)/0.005;
   lcd.setCursor(0,0);
-  lcd.print("Current Temp:");
-  lcd.setCursor(1,1);
+  lcd.print("Curr Temp:");
+  lcd.setCursor(11,0);
   lcd.print(cTemp);
   delay(500);
+  lcd.setCursor(0,1)
+  lcd.print("Set Temp:")
+  lcd.setCursor(10,1)
+  lcd.print(temp);
 }
 
 void setup()
