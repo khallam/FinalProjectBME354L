@@ -1,0 +1,25 @@
+//Temperature Converter
+//Converts bits to temperature
+
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(8,9,4,5,6,7);
+int temp = analogRead(A1);
+int min_temp;
+int max_temp;
+float Vlsb;
+float range;
+float temp_conv;
+
+void setup()
+{
+  
+}
+
+void loop()
+{
+  
+  range = min_temp-max_temp;
+  Vlsb = 5/(2^10-1);
+  temp_conv = temp;
+  
+}
