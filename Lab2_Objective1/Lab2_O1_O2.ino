@@ -25,7 +25,7 @@ boolean heaterState(int setTemp){     //heater function takes an input set tempe
     lcd.setCursor(0,0);
     lcd.print("TOO HOT");
     lcd.setCursor(0,1);
-    lcd.print("Turning Off");
+    lcd.print("Unplug Device");       //Lets the user know that the device needs to be unplugged
   }
 
 }
