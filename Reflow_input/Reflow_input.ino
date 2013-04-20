@@ -13,13 +13,13 @@ int adc_key_in = 0;
 #define V3 350
 #define V4 500
 #define V5 800
-int temp = 23;
+
 int cTemp = 0;
 int moveon = 0;
 int preheattemp;
 int reflowtemp;
-int maxtemp;
-int mintemp;
+int temp=150;
+
 
 // read the buttons function
 int read_LCD_buttons()
@@ -70,7 +70,7 @@ void loop()
 {
   if (moveon == 0){
     lcd.setCursor(0,0);
-    lcd.print("Preheat Temp");
+    lcd.print("Preht Temp, C");
     Enter_Temp();
     preheattemp = temp;
     delay(200);
@@ -79,35 +79,37 @@ void loop()
   if (moveon == 1)
   {
     lcd.setCursor(0,0);
-    lcd.print("Reflow Temp");
+    lcd.print("Reflow Tem, C");
     Enter_Temp();
     reflowtemp = temp;
     delay(200);
   }
 
+
   if (moveon == 2)
   {
-    Enter_Temp();
     lcd.clear();
+    moveon = moveon + 1;
     delay(200);
   }
+
 
   if (moveon == 3){
     lcd.setCursor(0,0);
-    lcd.print("Soak Time");
+    lcd.print("Soak Time, sec");
     Enter_Time();
-    lcd.clear();
     delay(200);
   }
-    if (moveon == 4){
-      lcd.setCursor(0,0);
-      lcd.print("Reflow Time");
-      Enter_Time();
 
-    }
-  
-  
+  if (moveon == 4){
+    lcd.setCursor(0,0);
+    lcd.print("Reflow Time, sec");
+    Enter_Time();
+  }
+
+
 
 }
+
 
 
