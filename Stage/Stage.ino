@@ -15,13 +15,14 @@ char Reflow_Stage()
     stage = 'Ramp to soak';
   }
   
-  if (timer > 0 && timer < timesoak){  //if (curtemp > temp_set - 20 && curtemp < temp_set + 20){
+  if (timer > 0 && timer < time_soak){  
+    //if (curtemp > temp_set - 20 && curtemp < temp_set + 20){
     stage = 'Soak';
     //Add the timer function here?
   }
   
   //if (curtemp < temp_setpk && curtemp > temp_set1 ){
-   if (timer > time_soak && temp < temp_setpk){
+   if (timer > time_soak && curtemp < temp_setpk){
     stage = 'Ramp to Reflow';
   }
   
@@ -29,7 +30,7 @@ char Reflow_Stage()
     stage = 'Reflow';
   }
   
-  if (timer > reflow time){
+  if (timer > reflowtime){
     stage = 'Cooling';
   }
 }
@@ -41,6 +42,6 @@ void setup(){
 
 void loop(){
   lcd.setCursor(0,0);
-  lcd.print(stage, char);
+  lcd.print(stage);
   
 }
