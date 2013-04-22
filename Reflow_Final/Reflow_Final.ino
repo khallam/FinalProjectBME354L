@@ -22,14 +22,16 @@ int adc_key_in = 0;
 
 int cTemp = 0;
 int moveon = 0;
-int preheattemp;
+int soaktemp;
 int reflowtemp;
 int temp=150;
 int time=60;
 int reflowtime;
 int soaktime;
 int timeleft;
-int nowM;
+char stage;
+//int nowM;
+int curTemp;
 
 void setup()
 {
@@ -48,7 +50,7 @@ void loop()
     lcd.setCursor(0,0);
     lcd.print("Preht Temp, C");
     Enter_Temp();
-    preheattemp = temp;
+    soaktemp = temp;
     delay(200);
   }
 
@@ -101,7 +103,7 @@ void loop()
     lcd.setCursor(0,0);
     lcd.print("Sel to Start");
     lcd.setCursor(0,1);
-    lcd.print(preheattemp);
+    lcd.print(soaktemp);
     lcd.setCursor(4,1);
     lcd.print(reflowtemp);
     lcd.setCursor(8,1);
@@ -114,9 +116,10 @@ void loop()
       moveon = moveon + 1;
       delay(200);
     }
+    lcd.setCursor(15,1);
+      lcd.print(moveon);
 
-
-    if (moveon == 7)
+    if (moveon >= 7)
     {
       lcd.setCursor(0,0);
       lcd.print("                ");
@@ -125,8 +128,14 @@ void loop()
       lcd.setCursor(0,0);
       lcd.print("starting");
       
+      curTemp=analogRead(A5);
+      lcd.setCursor(6,1);
+      lcd.print(curTemp);
+      
+      stage=Reflow_Stage(curTemp, soaktemp, reflowtemp, soaktime, reflowtime);
+      
       //Time Count
-      nowM=millis()/1000;
+      //nowM=millis()/1000;
       
     }
     

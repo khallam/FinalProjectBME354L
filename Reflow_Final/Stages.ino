@@ -1,11 +1,11 @@
 int refstage = 0;
-char stage;
+int curtime;
 
-char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int curtime, int soaktime, int reflowtime)
+char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int reflowtime)
 {
   if (refstage == 0){
     stage = 'Ramp to soak';
-   // myPID();
+    Control(soaktemp);                 //We need this PID function to increase the temperature to the soak temp
     
     if (curtemp >= soaktemp){
       refstage = 1;
@@ -14,9 +14,9 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int curtime, int so
   
   if (refstage == 1){
     stage = 'Soak';
-  //  myPID();
-  timeleft=stopwatch(soaktime);
-    
+    curtime = Stopwatch(soaktime);
+    Control(soaktemp);                  //We need this PID function to keep the temperature constant
+    return timeleft;
     if (curtime >= soaktime){
       refstage = 2;
     }
@@ -24,7 +24,7 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int curtime, int so
   
   if (refstage == 2){
     stage = 'Ramp to Reflow';
-   // myPID();
+    Control(reflowtemp);                //We need this PID function to increase the temperature to the reflow temp
     
     if (curtemp >= 217){
       refstage = 3;
@@ -33,7 +33,8 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int curtime, int so
   
   if (refstage == 3){
     stage = 'Reflow';
-    //myPID();
+    curtime = Stopwatch(reflowtime);
+    Control(reflowtemp);
     
     if (curtime >= reflowtime){
      refstage = 4;
@@ -42,10 +43,10 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int curtime, int so
 
 if (refstage == 4){
   stage = 'Cooling';
-  //myPID();
+  Control(25);                         //Cool to room temperature
 }
-
 return stage;
+}
 
   
   
