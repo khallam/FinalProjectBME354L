@@ -1,6 +1,11 @@
 // Function that allows the user to pick a set temperature
 int maxtemp;
 int mintemp;
+int buttonLast1=0;
+int buttonLast2=0;
+int buttonLast3=0;
+int buttonLast4=0;
+int buttonLast5=0;
 
 int Enter_Temp()
 {
@@ -29,47 +34,72 @@ int Enter_Temp()
     lcd.print("        ");
   }
   
-  switch(lcd_key){
-
-
-  case btnSELECT:
+  
+   if (lcd_key == btnSELECT){
+    if (lcd_key == btnSELECT && buttonLast1 != btnSELECT)
     {
-      moveon = moveon+1;              //If moveon in the void loop is 1 then allow the user to select the set temperature
-   //   lcd.setCursor(1,0);
-    //  lcd.print(temp);
-    lcd.clear();
-      break;
-    }
-
-  case btnUP:                          //Move temperature up by one
-    {
-      temp = temp+1;
-      normalize_number(temp);
-      delay(200);
-      break;
-    }
-  case btnDOWN:                          //Move temperature down by one
-    {
-      temp = temp-1;
-      normalize_number(temp);
-      delay(200);
-      break;
-    }
-  case btnRIGHT:                          //Move temperature up by 10
-    {
-      temp = temp+10;
-      normalize_number(temp);
-      delay(200);
-      break;
-    }
-  case btnLEFT:                          //Move temperature down by 10
-    {
-      temp = temp-10;
-      normalize_number(temp);
-      delay(200);
-      break;
+      moveon = moveon + 1;
+      lcd.clear();
+      buttonLast1 = btnSELECT;
     }
   }
+  else{
+    buttonLast1 = 0;
+  }
+
+
+  if (lcd_key == btnUP){
+    if (lcd_key == btnUP && buttonLast2 != btnUP)
+    {
+      temp = temp + 1;
+      normalize_number(temp);
+      buttonLast2 = btnUP;
+    }
+  }
+  else {
+    buttonLast2 = 0;
+  }
+
+
+
+  if (lcd_key == btnRIGHT){
+   // if (lcd_key == btnRIGHT && buttonLast3 != btnRIGHT)
+   // {
+      temp = temp + 10;
+      normalize_number(temp);
+      buttonLast3 = btnRIGHT;
+      delay(200);
+    }
+ // }
+ // else {
+ //   buttonLast3 = 0;
+ // }
+  
+
+  if (lcd_key == btnDOWN){
+    if (lcd_key == btnDOWN && buttonLast4 != btnDOWN)
+    {
+      temp = temp - 1;
+      normalize_number(temp);
+      buttonLast4 = btnDOWN;
+    }
+  }
+  else {
+    buttonLast4 = 0;
+  }
+
+  if (lcd_key == btnLEFT){
+    if (lcd_key == btnLEFT && buttonLast5 != btnLEFT)
+    {
+      temp = temp - 10;
+      normalize_number(temp);
+      buttonLast5 = btnLEFT;
+    }
+  }
+  else {
+    buttonLast5 = 0;
+  }
+
   return temp;
   return moveon;
 }

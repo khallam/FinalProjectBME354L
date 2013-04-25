@@ -8,6 +8,7 @@ LiquidCrystal lcd(8,9,4,5,6,7); //Define pins for LCD display
 //Variables for Reflow Input
 int lcd_key = 0;
 int adc_key_in = 0;
+
 #define btnRIGHT 0
 #define btnUP 1
 #define btnDOWN 2
@@ -117,31 +118,49 @@ void loop()
       delay(200);
     }
     lcd.setCursor(15,1);
-      lcd.print(moveon);
+    lcd.print(moveon);
+  }
+  if (moveon >= 7)
+  {
+    lcd.setCursor(0,0);
+    lcd.print("                ");
+    lcd.setCursor(0,1);
+    lcd.print("                ");
+   //curTemp = ReadCurTemp();
+    lcd.setCursor(0,0);
+    lcd.print("starting");
 
-    if (moveon >= 7)
-    {
-      lcd.setCursor(0,0);
-      lcd.print("                ");
-      lcd.setCursor(0,1);
-      lcd.print("                ");
-      lcd.setCursor(0,0);
-      lcd.print("starting");
-      
-      curTemp=analogRead(A5);
-      lcd.setCursor(6,1);
-      lcd.print(curTemp);
-      
-      stage=Reflow_Stage(curTemp, soaktemp, reflowtemp, soaktime, reflowtime);
-      
-      //Time Count
-      //nowM=millis()/1000;
-      
-    }
+    //curTemp = ReadCurTemp();
+
+    lcd.setCursor(12,1);
+    lcd.print(moveon,DEC);
+    //curTemp = ReadCurTemp();
+   
+   lcd.setCursor(8,1); 
+   curTemp = analogRead(A5);
+    lcd.print(curTemp);
+    //lcd.print(analogRead(A5));
+    delay(500);
     
+    stage=Reflow_Stage(curTemp, soaktemp, reflowtemp, soaktime, reflowtime);
+    
+  //  lcd.setCursor(14,1);
+  //  lcd.print(refstage);
+  
+    /* curTemp = ReadCurTemp();
+     lcd.setCursor(6,1);
+     lcd.print(curTemp,DEC);
+     //delay(200);
+     
+     //Time Count
+     //nowM=millis()/1000;
+     */
 
   }
+
 }
+
+
 
 
 

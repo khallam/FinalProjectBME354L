@@ -1,7 +1,10 @@
 //Function that reads the current input temperature
+/*
+int currentTemp;
 
-int CurrentTemp()
+int ReadCurTemp()
  {
+   /*
  lcd.clear();
  cTemp = analogRead(A5);
  lcd.setCursor(0,0);
@@ -11,5 +14,14 @@ int CurrentTemp()
  delay(500);   
  return cTemp;
  //This represents refresh rate. This can be increased if necessary
+ */
+ /*
+ currentTemp = analogRead(A5);
+ delay(500);
+ lcd.setCursor(13,1);
+ lcd.print(curTemp);
+ 
+ return currentTemp;
  }
+ */
  
