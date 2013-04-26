@@ -72,7 +72,6 @@ void loop()
     delay(200);
   }
 
-
   if (moveon == 3){
     lcd.setCursor(0,0);
     lcd.print("Soak Time, sec");
@@ -126,7 +125,7 @@ void loop()
     lcd.print("                ");
     lcd.setCursor(0,1);
     lcd.print("                ");
-   //curTemp = ReadCurTemp();
+    //curTemp = ReadCurTemp();
     lcd.setCursor(0,0);
     lcd.print("starting");
 
@@ -135,18 +134,17 @@ void loop()
     lcd.setCursor(12,1);
     lcd.print(moveon,DEC);
     //curTemp = ReadCurTemp();
-   
-   lcd.setCursor(8,1); 
-   curTemp = analogRead(A5);
+
+    lcd.setCursor(8,1); 
+    curTemp = analogRead(A5);
     lcd.print(curTemp);
-    //lcd.print(analogRead(A5));
     delay(500);
-    
+
     stage=Reflow_Stage(curTemp, soaktemp, reflowtemp, soaktime, reflowtime);
-    
-  //  lcd.setCursor(14,1);
-  //  lcd.print(refstage);
-  
+
+    //  lcd.setCursor(14,1);
+    //  lcd.print(refstage);
+
     /* curTemp = ReadCurTemp();
      lcd.setCursor(6,1);
      lcd.print(curTemp,DEC);
@@ -159,6 +157,7 @@ void loop()
   }
 
 }
+
 
 
 

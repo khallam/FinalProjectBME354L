@@ -14,10 +14,14 @@ int Enter_Temp()
   if (moveon == 0){
     maxtemp = 160;
     mintemp = 140;
+    lcd.setCursor(0,1);
+    lcd.print(temp);
   }
   if (moveon == 1){
     maxtemp = 250;
     mintemp = 218;
+    lcd.setCursor(0,1);
+    lcd.print(temp);
   }
 
   if (temp < mintemp){
@@ -60,21 +64,12 @@ int Enter_Temp()
     buttonLast2 = 0;
   }
 
-
-
   if (lcd_key == btnRIGHT){
-   // if (lcd_key == btnRIGHT && buttonLast3 != btnRIGHT)
-   // {
       temp = temp + 10;
       normalize_number(temp);
       buttonLast3 = btnRIGHT;
       delay(200);
     }
- // }
- // else {
- //   buttonLast3 = 0;
- // }
-  
 
   if (lcd_key == btnDOWN){
     if (lcd_key == btnDOWN && buttonLast4 != btnDOWN)
