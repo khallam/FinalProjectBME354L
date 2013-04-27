@@ -8,19 +8,19 @@ double Setpoint, Input, Output;
 double aggKp=2, aggKi=0.1, aggKd=5;
 double consKp=0.5, consKi=0.025, consKd=1;
 
-int Control(double Setpoint)
+int Control(double user, double curtemp)
 {
   //Link the PID function
   PID myPID(&Input, &Output, &Setpoint, aggKp, aggKi, aggKd, DIRECT);
 
 
-  //int WindowSize=5000;
-  //unsigned long windowStartTime;
+  int WindowSize=1000;
+  unsigned long windowStartTime;
 
-  //windowStartTime=millis();
-
-
-  //myPID.SetOutputLimits(0,WindowSize);
+  windowStartTime=millis();
+  Setpoint=user;
+Input=curtemp;
+  myPID.SetOutputLimits(0,WindowSize);
 
   //Turn PID on
   myPID.SetMode(AUTOMATIC);
@@ -37,21 +37,24 @@ int Control(double Setpoint)
   }
 
   myPID.Compute();
-  /*
-unsigned long now=millis();
-   if (now-windowStartTime>WindowSize)
-   {
-   windowStartTime +=WindowSize;
-   }
-   if (Output> now-windowStartTime) 
-   {
-   digitalWrite(RelayPin,HIGH);
-   }
-   else
-   {
-   */
-  analogWrite(RelayPin,Output);
-}
+
+//  unsigned long now=millis();
+//  if (now-windowStartTime > WindowSize)
+//  {
+//    windowStartTime +=WindowSize;
+//  }
+//  if (Output> now-windowStartTime) 
+//  {
+//    digitalWrite(RelayPin,HIGH);
+//  }
+//  else
+//  {
+
+    analogWrite(RelayPin,Output);
+  }
+
+
+
 
 
 

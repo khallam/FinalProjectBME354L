@@ -23,8 +23,8 @@ int adc_key_in = 0;
 
 int cTemp = 0;
 int moveon = 0;
-int soaktemp;
-int reflowtemp;
+double soaktemp;
+double reflowtemp;
 int temp=150;
 int time=60;
 int reflowtime;
