@@ -34,6 +34,7 @@ char stage;
 //int nowM;
 int curTemp;
 
+
 void setup()
 {
   lcd.begin(16,2);

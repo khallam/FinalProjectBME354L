@@ -5,8 +5,8 @@
 double Setpoint, Input, Output;
 
 //Define aggressive and conservative PID parameters
-double aggKp=2, aggKi=0.1, aggKd=5;
-double consKp=0.5, consKi=0.025, consKd=1;
+double aggKp=80, aggKi=4, aggKd=200;
+double consKp=20, consKi=2, consKd=100;
 
 int Control(double user, double curtemp)
 {
@@ -26,7 +26,7 @@ Input=curtemp;
   myPID.SetMode(AUTOMATIC);
 
   double gap = abs(Setpoint-Input); //distance away from setpoint
-  if (gap<10)
+  if (gap<5)
   {  //we're close to setpoint, use conservative tuning parameters
     myPID.SetTunings(consKp, consKi, consKd);
   }
