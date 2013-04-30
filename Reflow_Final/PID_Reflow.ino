@@ -5,21 +5,21 @@
 double Setpoint, Input, Output;
 
 //Define aggressive and conservative PID parameters
-double aggKp=80, aggKi=4, aggKd=200;
-double consKp=20, consKi=2, consKd=100;
+double aggKp=2, aggKi=0.1, aggKd=5;
+double consKp=1, consKi=0.05, consKd=2.5;
 
-int Control(double user, double curtemp)
+int Control(double user, double curtemp, int lastM)
 {
   //Link the PID function
   PID myPID(&Input, &Output, &Setpoint, aggKp, aggKi, aggKd, DIRECT);
 
 
   int WindowSize=1000;
-  unsigned long windowStartTime;
+  int windowStartTime;
 
-  windowStartTime=millis();
+  windowStartTime=lastM;
   Setpoint=user;
-Input=curtemp;
+  Input=curtemp;
   myPID.SetOutputLimits(0,WindowSize);
 
   //Turn PID on
@@ -38,20 +38,38 @@ Input=curtemp;
 
   myPID.Compute();
 
-//  unsigned long now=millis();
-//  if (now-windowStartTime > WindowSize)
-//  {
-//    windowStartTime +=WindowSize;
-//  }
-//  if (Output> now-windowStartTime) 
-//  {
-//    digitalWrite(RelayPin,HIGH);
-//  }
-//  else
-//  {
-
-    analogWrite(RelayPin,Output);
+  int now=millis();
+  lcd.setCursor(2,1);
+  lcd.print(((now - windowStartTime) % WindowSize));
+  
+  
+  if (Output > ((now - windowStartTime) % WindowSize))
+  {
+    digitalWrite(RelayPin,HIGH);
   }
+  
+  if (Output < ((now - windowStartTime) % WindowSize))
+  {
+    digitalWrite(RelayPin,LOW);
+  }
+  
+ 
+ /* 
+  if (now-windowStartTime > WindowSize)
+  {
+    windowStartTime =lastM + WindowSize;
+  }
+  if (Output> now-windowStartTime) 
+  {
+    digitalWrite(RelayPin,HIGH);
+  }
+  if (Output < now-windowStartTime)
+  {
+   digitalWrite(RelayPin,LOW);
+  }
+  */
+}
+
 
 
 

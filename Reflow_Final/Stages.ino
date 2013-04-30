@@ -6,13 +6,18 @@ unsigned long lastM;
 char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int reflowtime)
 {
   if (refstage == 0){
+    lastM = millis();
+    refstage = 1;
+  }
+  
+  if (refstage == 1){
     //curTemp = ReadCurTemp();
     dispstage = "Ramp soak";
-    Control(soaktemp,curtemp);                 //We need this PID function to increase the temperature to the soak temp
+    Control(soaktemp,curtemp,lastM);                 //We need this PID function to increase the temperature to the soak temp
 
-      if (curtemp >= soaktemp){
-      refstage = 1;
-      lastM=millis()/1000;
+    if (curtemp >= soaktemp){
+      refstage = 2;
+      lastM=millis();
     }
 
     //  lcd.setCursor(6,1);
@@ -26,7 +31,7 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
     delay(200);
   }
 
-  if (refstage == 1){
+  if (refstage == 2){
     //   ReadCurTemp();
     dispstage = "Soak";
     curtime = Stopwatch(soaktime, lastM);
@@ -34,13 +39,13 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
     lcd.print(curtime);
     lcd.setCursor(9,0);
     lcd.print(dispstage);
-    Control(soaktemp,curtemp);                  //We need this PID function to keep the temperature constant
+    Control(soaktemp,curtemp,lastM);                  //We need this PID function to keep the temperature constant
     lcd.setCursor(0,1);
     lcd.print(refstage,DEC);
     delay(200);
 
     if (curtime >= soaktime){
-      refstage = 2;
+      refstage = 3;
     }
 
     //   lcd.setCursor(6,1);
@@ -50,7 +55,7 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
     //lcd.print(refstage,DEC);
   }
 
-  if (refstage == 2){
+  if (refstage == 3){
     // ReadCurTemp();
     dispstage = "Ramp to Reflow";
 
@@ -61,11 +66,11 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
     lcd.print(refstage,DEC);
     delay(200);
 
-    Control(reflowtemp,curtemp);                //We need this PID function to increase the temperature to the reflow temp
+    Control(reflowtemp,curtemp,lastM);                //We need this PID function to increase the temperature to the reflow temp
 
-      if (curtemp >= 217){
-      refstage = 3;
-      lastM=millis()/1000;
+    if (curtemp >= 217){
+      refstage = 4;
+      lastM=millis();
     }
 
 
@@ -77,7 +82,7 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
     //lcd.print(refstage,DEC);
   }
 
-  if (refstage == 3){
+  if (refstage == 4){
     // ReadCurTemp();
     dispstage = "Reflow";
     curtime = Stopwatch(reflowtime,lastM);
@@ -88,10 +93,10 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
     lcd.setCursor(0,1);
     lcd.print(refstage,DEC);
     delay(200);
-    Control(reflowtemp,curtemp);
+    Control(reflowtemp,curtemp,lastM);
 
     if (curtime >= reflowtime){
-      refstage = 4;
+      refstage = 5;
     }
 
     //   lcd.setCursor(6,1);
@@ -99,7 +104,7 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
 
   }
 
-  if (refstage == 4){
+  if (refstage == 5){
     //  ReadCurTemp();
     dispstage = "Cooling";
     lcd.setCursor(9,0);
@@ -108,30 +113,31 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
     lcd.print(refstage,DEC);
     delay(200);
 
-    Control(25,curtemp);  
-    
+    Control(25,curtemp,lastM);  
+
     if (curtemp < 40){
-      refstage = 5;
-        //Cool to room temperature
+      refstage = 6;
+      //Cool to room temperature
     }
     //return refstage;
   }
 
-  if (refstage == 5){
+  if (refstage == 6){
     lcd.setCursor(0,0);
     lcd.print("                ");
     lcd.setCursor(0,1);
     lcd.print("                ");
-    refstage == 6;
+    refstage == 7;
   }
-  
-  if (refstage == 6){
+
+  if (refstage == 7){
     lcd.setCursor(0,0);
     lcd.print("Done");
     lcd.setCursor(0,1);
     lcd.print("Safe to touch");   
   }
 }
+
 
 
 

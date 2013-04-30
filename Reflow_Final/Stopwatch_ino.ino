@@ -6,8 +6,8 @@ int timeLeft=0;
 
 int Stopwatch(int setPoint,unsigned long lastM)
 {
-  nowM=millis()/1000;
-  curTime =(nowM-lastM);
+  nowM=millis();
+  curTime =(nowM-lastM)/1000;
   //lastM=nowM; //We did through if loop last time, better option is to update
  // lcd.setCursor(2,1);
 //  lcd.print(curTime);

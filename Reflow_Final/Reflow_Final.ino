@@ -53,7 +53,7 @@ void loop()
     lcd.print("Preht Temp, C");
     Enter_Temp();
     soaktemp = temp;
-    delay(200);
+    delay(5);
   }
 
   if (moveon == 1)
@@ -62,7 +62,7 @@ void loop()
     lcd.print("Reflow Tem, C");
     Enter_Temp();
     reflowtemp = temp;
-    delay(200);
+    delay(5);
   }
 
 
@@ -70,7 +70,7 @@ void loop()
   {
     lcd.clear();
     moveon = moveon + 1;
-    delay(200);
+    delay(5);
   }
 
   if (moveon == 3){
@@ -78,7 +78,7 @@ void loop()
     lcd.print("Soak Time, sec");
     Enter_Time();
     soaktime = time;
-    delay(200);
+    delay(5);
   }
 
   if (moveon == 4){
@@ -96,7 +96,7 @@ void loop()
     lcd.setCursor(0,1);
     lcd.print("                ");
     moveon = moveon+1;
-    delay(200);
+    delay(5);
   }
 
   if (moveon == 6)
