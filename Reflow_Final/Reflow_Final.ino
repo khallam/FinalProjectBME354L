@@ -34,6 +34,7 @@ char stage;
 //int nowM;
 int curTemp;
 int printtime;
+int doneReflow=0;
 
 
 void setup()
@@ -88,8 +89,6 @@ void loop()
     Enter_Time();
     reflowtime=time;
   }
-  //END OF USER INPUT
-  //Is user sure?
   if (moveon == 5) 
   {
     lcd.setCursor(0,0);
@@ -97,7 +96,7 @@ void loop()
     lcd.setCursor(0,1);
     lcd.print("                ");
     moveon = moveon+1;
-    delay(5);
+    delay(200);
   }
 
   if (moveon == 6)
@@ -136,24 +135,22 @@ void loop()
     lcd.print("s");
     delay(500);
 
-    stage=Reflow_Stage(curTemp, soaktemp, reflowtemp, soaktime, reflowtime);
-    
-    //Print Statistics
+    stage=Reflow_Stage(curTemp, soaktemp, reflowtemp, soaktime, reflowtime); 
+
+    if (doneReflow = 1)
+    { 
+      int maxpresoaktemp;
+      int presoakerror;
+
+      maxpresoaktemp = EEPROM.read(2);
+      presoakerror = maxpresoaktemp-soaktemp;
+      lcd.setCursor(0,0);
+      lcd.print(maxpresoaktemp);
+      lcd.setCursor(3,0);
+      lcd.print(presoakerror);
+    }
   }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

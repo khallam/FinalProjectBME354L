@@ -88,4 +88,3 @@ int Enter_Time()
   return time;
   return moveon;
 }
-
