@@ -85,50 +85,6 @@ int Enter_Time()
   else {
     buttonLast5 = 0;
   }
-/*
-  switch(lcd_key)
-  {
-
-  case btnSELECT:
-    {
-      moveon = moveon+1;              // Allow the user to select the set time
-      lcd.setCursor(1,0);
-      lcd.print(time);
-      break;
-      lcd.clear();
-    }
-
-  case btnUP:                          //Move time up by one
-    {
-      time = time+1;
-      normalize_number(time);
-      delay(200);
-      break;
-    }
-  case btnDOWN:                          //Move time down by one
-    {
-      time = time-1;
-      if (time < mintime)
-        normalize_number(time);
-      delay(200);
-      break;
-    }
-  case btnRIGHT:                          //Move time up by 10
-    {
-      time = time+10;
-      normalize_number(time);
-      delay(200);
-      break;
-    }
-  case btnLEFT:                          //Move time down by 10
-    {
-      time = time-10;
-      normalize_number(time);
-      delay(200);
-      break;
-    }
-  }
-  */
   return time;
   return moveon;
 }

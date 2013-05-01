@@ -33,6 +33,7 @@ int timeleft;
 char stage;
 //int nowM;
 int curTemp;
+int printtime;
 
 
 void setup()
@@ -115,10 +116,8 @@ void loop()
     switch(lcd_key){
     case btnSELECT:
       moveon = moveon + 1;
-      delay(200);
+      delay(5);
     }
-    lcd.setCursor(15,1);
-    lcd.print(moveon);
   }
   if (moveon >= 7)
   {
@@ -126,35 +125,20 @@ void loop()
     lcd.print("                ");
     lcd.setCursor(0,1);
     lcd.print("                ");
-    //curTemp = ReadCurTemp();
-    lcd.setCursor(0,0);
-    lcd.print("starting");
-
-    //curTemp = ReadCurTemp();
-
-    lcd.setCursor(12,1);
-    lcd.print(moveon,DEC);
-    //curTemp = ReadCurTemp();
-
     lcd.setCursor(8,1); 
     curTemp = analogRead(A5);
     lcd.print(curTemp);
+    lcd.setCursor(11,1);
+    lcd.print("C");
+    lcd.setCursor(0,1);
+    lcd.print(printtime,DEC);
+    lcd.setCursor(2,1);
+    lcd.print("s");
     delay(500);
 
     stage=Reflow_Stage(curTemp, soaktemp, reflowtemp, soaktime, reflowtime);
-
-    //  lcd.setCursor(14,1);
-    //  lcd.print(refstage);
-
-    /* curTemp = ReadCurTemp();
-     lcd.setCursor(6,1);
-     lcd.print(curTemp,DEC);
-     //delay(200);
-     
-     //Time Count
-     //nowM=millis()/1000;
-     */
-
+    
+    //Print Statistics
   }
 
 }

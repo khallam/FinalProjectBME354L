@@ -12,9 +12,9 @@ int Control(double user, double curtemp, int lastM)
 {
   //Link the PID function
   PID myPID(&Input, &Output, &Setpoint, aggKp, aggKi, aggKd, DIRECT);
+  pinMode(RelayPin, OUTPUT);
 
-
-  int WindowSize=1000;
+  int WindowSize=500;
   int windowStartTime;
 
   windowStartTime=lastM;
@@ -25,8 +25,8 @@ int Control(double user, double curtemp, int lastM)
   //Turn PID on
   myPID.SetMode(AUTOMATIC);
 
-  double gap = abs(Setpoint-Input); //distance away from setpoint
-  if (gap<5)
+  double gap = Setpoint-Input; //distance away from setpoint
+  if (gap>5)
   {  //we're close to setpoint, use conservative tuning parameters
     myPID.SetTunings(consKp, consKi, consKd);
   }
@@ -38,10 +38,7 @@ int Control(double user, double curtemp, int lastM)
 
   myPID.Compute();
 
-  int now=millis();
-  lcd.setCursor(2,1);
-  lcd.print(((now - windowStartTime) % WindowSize));
-  
+  unsigned long now=millis();
   
   if (Output > ((now - windowStartTime) % WindowSize))
   {
@@ -52,22 +49,6 @@ int Control(double user, double curtemp, int lastM)
   {
     digitalWrite(RelayPin,LOW);
   }
-  
- 
- /* 
-  if (now-windowStartTime > WindowSize)
-  {
-    windowStartTime =lastM + WindowSize;
-  }
-  if (Output> now-windowStartTime) 
-  {
-    digitalWrite(RelayPin,HIGH);
-  }
-  if (Output < now-windowStartTime)
-  {
-   digitalWrite(RelayPin,LOW);
-  }
-  */
 }
 
 
