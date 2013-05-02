@@ -20,7 +20,7 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
       lastM=millis();                              //Freeze millis time as lastM
     }
 
-    lcd.setCursor(3,0);
+    lcd.setCursor(3,0);                            //Print current stage
     lcd.print(dispstage);
     delay(500);                                    //Take measurements every 0.5 seconds
   }
@@ -34,10 +34,10 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
     Control(soaktemp,curtemp,lastM);               //PID functions keeps temp at soaktemp
     delay(500);                                    //Delay 0.5 seconds between measurements
 
-    if (maxPeak <= curTemp){
+    if (maxPeak <= curTemp){                       //Record max temp of this SOAK
       maxPeak = curTemp;
     }
-    else if (maxPeak>curTemp){
+    else if (maxPeak>curTemp){                     //Save max temp of SOAK to EEPROM 1
       maxPeak = maxPeak;
       EEPROM.write(1,maxPeak);
     }
@@ -70,10 +70,10 @@ char Reflow_Stage(int curtemp, int soaktemp, int reflowtemp, int soaktime, int r
     lcd.print(dispstage);                          //Display current stage
     delay(500);                                    //Delay 0.5 seconds between measurements
 
-    if (maxPeak <= curTemp){
+    if (maxPeak <= curTemp){                       //Find max temp of REFLOW
       maxPeak = curTemp;
     }
-    else if (maxPeak>curTemp){
+    else if (maxPeak>curTemp){                     //Save max temp of REFLOW to EEPROM 2
       maxPeak = maxPeak;
       EEPROM.write(2,maxPeak);
     }
