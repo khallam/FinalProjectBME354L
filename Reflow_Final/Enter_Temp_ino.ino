@@ -96,6 +96,6 @@ int Enter_Temp()                   //Define the function for user input temperat
     buttonLast5 = 0;
   }
 
-  return temp;                                             //Return the user-set temperature
-  return moveon;                                           //Return moveon
+  return temp;                        //Return the user-set temperature
+  return moveon;                      //Update moveon in the case that the select button was pressed
 }
