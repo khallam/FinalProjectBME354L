@@ -1,3 +1,4 @@
+//Function to control button pressing and corresponding values
 //Adapted from Dr. Mark Palmeri--4/21/2013
 int buttonPin=A0;                                 //Read Pin A0
 #define btnRIGHT 0  //Define buttons
