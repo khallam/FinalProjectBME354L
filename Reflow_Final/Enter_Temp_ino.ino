@@ -40,8 +40,8 @@ int Enter_Temp()                   //Define the function for user input temperat
     lcd.print("        ");
   }
 
-   if (lcd_key == btnSELECT){                          //Debounce function
-    if (lcd_key == btnSELECT && buttonLast1 != btnSELECT)
+  if (lcd_key == btnSELECT){                                  //If select button is pressed, move on to the next stage of user input in Reflow_Final.INO
+    if (lcd_key == btnSELECT && buttonLast1 != btnSELECT)     //Debounce function
     {
       moveon = moveon + 1;
       lcd.clear();
@@ -57,7 +57,7 @@ int Enter_Temp()                   //Define the function for user input temperat
     if (lcd_key == btnUP && buttonLast2 != btnUP)     //Debounce for button up
     {
       temp = temp + 1;
-      normalize_number(temp);
+      normalize_number(temp,0,1);
       buttonLast2 = btnUP;
     }
   }
@@ -65,18 +65,20 @@ int Enter_Temp()                   //Define the function for user input temperat
     buttonLast2 = 0;
   }
 
-  if (lcd_key == btnRIGHT){                            //Define button right to increase temperature by 10          
-      temp = temp + 10;
-      normalize_number(temp);
-      buttonLast3 = btnRIGHT;
-      delay(200);
-    }
-
+  
+  if (lcd_key == btnRIGHT){                            //Define button right to increase temperature by 10, left it not debounced so that user can quickly increase temperature         
+   temp = temp + 10;
+   normalize_number(temp,0,1);
+   buttonLast3 = btnRIGHT;
+   delay(200);
+   }
+   
+   
   if (lcd_key == btnDOWN){                             //Define button down to decrease temperature by 1   
     if (lcd_key == btnDOWN && buttonLast4 != btnDOWN)  //Debounce function for button down
     {
       temp = temp - 1;
-      normalize_number(temp);
+      normalize_number(temp,0,1);
       buttonLast4 = btnDOWN;
     }
   }
@@ -88,7 +90,7 @@ int Enter_Temp()                   //Define the function for user input temperat
     if (lcd_key == btnLEFT && buttonLast5 != btnLEFT)       //Debounce function for button left
     {
       temp = temp - 10;
-      normalize_number(temp);
+      normalize_number(temp,0,1);
       buttonLast5 = btnLEFT;
     }
   }
@@ -97,5 +99,5 @@ int Enter_Temp()                   //Define the function for user input temperat
   }
 
   return temp;                        //Return the user-set temperature
-  return moveon;                      //Update moveon in the case that the select button was pressed
+  return moveon;                      //Update moveon on the case that the select button was pressed
 }
