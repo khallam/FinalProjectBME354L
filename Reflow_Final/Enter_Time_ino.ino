@@ -1,3 +1,5 @@
+//Function to allow user to input time
+
 int maxtime;
 int mintime;
 
@@ -7,12 +9,12 @@ int Enter_Time()                         //Function to enter soak and reflow tim
   if (moveon == 3){                    //Define optimal time ranges for SOAK stage
     maxtime = 120;
     mintime = 60;
-    normalize_number(time);            //Call the TempString.INO function to displace correctly
+    normalize_number(time,0,1);            //Call the TempString.INO function to displace correctly
   }
   if (moveon == 4){                    //Define optimal time ranges for REFLOW stage
     maxtime = 75;
     mintime = 45;
-    normalize_number(time);            //Normalize for correct printing like above
+    normalize_number(time,0,1);            //Normalize for correct printing like above
   }
 
   if (time < mintime){                 //Prompt user to increase set time if too low
@@ -47,7 +49,7 @@ int Enter_Time()                         //Function to enter soak and reflow tim
     if (lcd_key == btnUP && buttonLast2 != btnUP)        //Debounce for button up
     {
       time = time + 1;
-      normalize_number(time);
+      normalize_number(time,0,1);
       buttonLast2 = btnUP;
     }
   }
@@ -56,8 +58,8 @@ int Enter_Time()                         //Function to enter soak and reflow tim
   }
 
   if (lcd_key == btnRIGHT){                             //Button right increase time by 10                              
-      time = time + 10; 
-      normalize_number(time);
+      time = time + 10;                                 //No debounce allows for a speedy increase of set values, works as well as debounce
+      normalize_number(time,0,1);
       buttonLast3 = btnRIGHT;
       delay(200);
     }
@@ -66,7 +68,7 @@ int Enter_Time()                         //Function to enter soak and reflow tim
     if (lcd_key == btnDOWN && buttonLast4 != btnDOWN)  //debounce for button down
     {
       time = time - 1;
-      normalize_number(time);
+      normalize_number(time,0,1);
       buttonLast4 = btnDOWN;
     }
   }
@@ -78,7 +80,7 @@ int Enter_Time()                         //Function to enter soak and reflow tim
     if (lcd_key == btnLEFT && buttonLast5 != btnLEFT)  //Debounce for button left
     {
       time = time - 10;
-      normalize_number(time);
+      normalize_number(time,0,1);
       buttonLast5 = btnLEFT;
     }
   }
