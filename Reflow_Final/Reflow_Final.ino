@@ -33,12 +33,10 @@ int reflowtime;
 int soaktime;
 int timeleft;
 char stage;
-//int nowM;
 int curTemp;
 int printtime;
 int doneReflow=0;
 int out;
-
 
 void setup()
 {
@@ -71,7 +69,7 @@ void loop()
   }
 
 
-  if (moveon == 2)         //Clear the screen before moving on to time input
+  if (moveon == 2)                          //Clear the screen before moving on to time input
   {
     lcd.clear();
     moveon = moveon + 1;
@@ -94,10 +92,7 @@ void loop()
   }
   if (moveon == 5)                           //Clear the screen once all user input is finished
   {
-    lcd.setCursor(0,0);
-    lcd.print("                ");
-    lcd.setCursor(0,1);
-    lcd.print("                ");
+    lcd.clear();
     moveon = moveon+1;
     delay(200);
   }
@@ -122,7 +117,7 @@ void loop()
     }
   }
 
-  if (moveon==7)
+  if (moveon==7)                        //Clear the LCD once user input stages are finished and move on to running reflow 
   {
     lcd.clear();
     moveon=8;
@@ -133,46 +128,20 @@ void loop()
     int curTempold = curTemp;
     curTemp = analogRead(A5);           //Read current temperature
     lcd.setCursor(14,1);
-    lcd.print("C");  
-    
-    if (abs(curTempold-curTemp) > 1){  //Makes the curtemp display only update when the temperature differes by 1 deg C
+    lcd.print("C");                     //Display Temperature units
+
+    if (abs(curTempold-curTemp) > 2){  //Makes the curtemp display only update when the temperature differes by 1 deg C
       normalize_number(curTemp,11,1);  //Display blinks constantly 
     }
     else {
       normalize_number(curTempold,11,1);
     }
-    
-       
-    //Print units of curtemp
-    //lcd.setCursor(0,1);
-    // lcd.print(printtime,DEC);           //Print time left in stage
-    normalize_number(printtime,0,1);
+
+    normalize_number(printtime,0,1);       //Print time left in stage
     lcd.setCursor(3,1);
-    lcd.print("s");                     //Print units of time
+    lcd.print("s");                        //Print units of time
     delay(5);
 
     stage=Reflow_Stage(curTemp, soaktemp, reflowtemp, soaktime, reflowtime);  //Run through all stages and return time left
-
-    //    if (doneReflow = 1)                  //If reflow is done, record statistics
-    //    { 
-    //      int maxpresoaktemp;
-    //      int presoakerror;
-    //      int maxreflowtemp;
-    //      int reflowerror;
-    //
-    //      maxpresoaktemp = EEPROM.read(1);              //Read EEPROM max temps and display statistics
-    //      presoakerror = maxpresoaktemp-soaktemp;
-    //      lcd.setCursor(0,0);
-    //      lcd.print(maxpresoaktemp);
-    //      lcd.setCursor(3,0);
-    //      lcd.print(presoakerror);
-    //      lcd.setCursor(0,1);
-    //      lcd.print(maxreflowtemp);
-    //      lcd.setCursor(3,1);
-    //      lcd.print(reflowerror);
-    //    }
   }
 }
-
-
-
