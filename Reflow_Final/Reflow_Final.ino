@@ -37,6 +37,7 @@ char stage;
 int curTemp;
 int printtime;
 int doneReflow=0;
+int out;
 
 
 void setup()
@@ -120,37 +121,56 @@ void loop()
       delay(5);
     }
   }
-  if (moveon >= 7)                      //Start running the reflow curve
+
+  if (moveon==7)
   {
-    lcd.setCursor(0,0);                 //Clear the screen
-    lcd.print("                ");
-    lcd.setCursor(0,1);
-    lcd.print("                ");
-    lcd.setCursor(8,1); 
+    lcd.clear();
+    moveon=8;
+  }
+
+  if (moveon >= 8)                      //Start running the reflow curve
+  {
+    int curTempold = curTemp;
     curTemp = analogRead(A5);           //Read current temperature
-    lcd.print(curTemp);                 //Print current temperature
-    lcd.setCursor(11,1);
-    lcd.print("C");                     //Print units of curtemp
-    lcd.setCursor(0,1);
-    lcd.print(printtime,DEC);           //Print time left in stage
-    lcd.setCursor(2,1);
+    lcd.setCursor(14,1);
+    lcd.print("C");  
+    
+    if (abs(curTempold-curTemp) > 1){  //Makes the curtemp display only update when the temperature differes by 1 deg C
+      normalize_number(curTemp,11,1);  //Display blinks constantly 
+    }
+    else {
+      normalize_number(curTempold,11,1);
+    }
+    
+       
+    //Print units of curtemp
+    //lcd.setCursor(0,1);
+    // lcd.print(printtime,DEC);           //Print time left in stage
+    normalize_number(printtime,0,1);
+    lcd.setCursor(3,1);
     lcd.print("s");                     //Print units of time
-    delay(500);
+    delay(5);
 
     stage=Reflow_Stage(curTemp, soaktemp, reflowtemp, soaktime, reflowtime);  //Run through all stages and return time left
 
-    if (doneReflow = 1)                  //If reflow is done, record statistics
-    { 
-      int maxpresoaktemp;
-      int presoakerror;
-
-      maxpresoaktemp = EEPROM.read(2);              //Read EEPROM max temps and display statistics
-      presoakerror = maxpresoaktemp-soaktemp;
-      lcd.setCursor(0,0);
-      lcd.print(maxpresoaktemp);
-      lcd.setCursor(3,0);
-      lcd.print(presoakerror);
-    }
+    //    if (doneReflow = 1)                  //If reflow is done, record statistics
+    //    { 
+    //      int maxpresoaktemp;
+    //      int presoakerror;
+    //      int maxreflowtemp;
+    //      int reflowerror;
+    //
+    //      maxpresoaktemp = EEPROM.read(1);              //Read EEPROM max temps and display statistics
+    //      presoakerror = maxpresoaktemp-soaktemp;
+    //      lcd.setCursor(0,0);
+    //      lcd.print(maxpresoaktemp);
+    //      lcd.setCursor(3,0);
+    //      lcd.print(presoakerror);
+    //      lcd.setCursor(0,1);
+    //      lcd.print(maxreflowtemp);
+    //      lcd.setCursor(3,1);
+    //      lcd.print(reflowerror);
+    //    }
   }
 }
 
